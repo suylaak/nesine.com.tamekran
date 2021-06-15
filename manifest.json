@@ -1,6 +1,7 @@
 {
 	"name": "Nesine.com Tam Ekran",
-	"version": "1.2",
+	"version": "1.3",
+	"author": "Suylaak",
 	"description": "Nesine.com sitesinde yayınlanan canlı maç yayınlarını tam ekran yapmanıza olanak sağlar.",
 	"manifest_version": 2,
 	"background": {
@@ -37,7 +38,7 @@
 				"*://*.nesine.com/iddaa/canli-iddaa-canli-bahis*"
 			],
 			"run_at": "document_end",
-			"js": ["jquery-3.6.0.slim.min.js", "script2.js"]
+			"js": ["script2.js"]
 		}
 	]
 }

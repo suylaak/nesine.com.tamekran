@@ -2,7 +2,7 @@ var script = document.createElement('script');
 script.innerHTML = `
 	var myPlayer = videojs('liveVideo');
 	
-	function setFullscreen() {		
+	function setFullscreen() {
 		if (myPlayer.isFullscreen()) {
 			myPlayer.exitFullscreen();
 		} else {
@@ -10,7 +10,7 @@ script.innerHTML = `
 		}
 	}
 	
-	$('#divPlayer').bind('DOMSubtreeModified', function(){	
+	document.querySelector('#divPlayer').addEventListener('DOMSubtreeModified', function(){
 		if (myPlayer.player_ == null && document.querySelector('#divPlayer .vjs-control-bar') != null) {
 			myPlayer = videojs('liveVideo');
 		}
@@ -72,22 +72,36 @@ function matchButton() {
 var checkExist = setInterval(function() {
 	if (document.querySelector('#ddlTrackerMatches span.name').innerText != null && document.querySelector('#ddlTrackerMatches span.name').innerText != '') {
 		
-		$('#ddloverflowEllipsis li').click(function(){
-			matchButton();
-		});
+		let lis = document.querySelectorAll('#ddloverflowEllipsis li');
+		for (let i = 0; i < lis.length; i++) {
+			lis[i].addEventListener('click', function(){
+				matchButton();
+			});
+		}
 		
 		document.querySelector('#defaultTracker .match-stream-tab-main .tab-header').insertAdjacentHTML('beforebegin', '<div style="margin: 5px 0;" id="ext-div"></div>');
 		
 		matchButton();
+		
+		document.querySelector('#ddlTrackerMatches .name').addEventListener('DOMSubtreeModified', function(){
+			matchButton();
+		});
 		
 		clearInterval(checkExist);
 	}
 }, 100);
 
 var checkExist2 = setInterval(function() {
-	if (document.querySelector('#divPlayer .vjs-control-bar') != null) {
-		document.body.appendChild(script);
-		document.querySelector('#divPlayer .vjs-control-bar').appendChild(fsButton);
-		clearInterval(checkExist2);
+	let playerEl = document.querySelector('#divPlayer');
+	
+	if (playerEl) {
+		let controlBarEl = playerEl.querySelector('.vjs-control-bar');
+		
+		if (controlBarEl) {
+			document.body.appendChild(script);
+			controlBarEl.appendChild(fsButton);
+			clearInterval(checkExist2);
+		}
 	}
 }, 100);
+

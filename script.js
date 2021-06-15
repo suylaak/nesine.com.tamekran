@@ -1,8 +1,8 @@
-var script = document.createElement('script');
-script.innerHTML = `
+var playerScript = document.createElement('script');
+playerScript.innerHTML = `
 	var myPlayer = videojs('liveVideo');
 	
-	function setFullscreen() {		
+	function setFullscreen() {
 		if (myPlayer.isFullscreen()) {
 			myPlayer.exitFullscreen();
 		} else {
@@ -19,10 +19,17 @@ fsButton.setAttribute('aria-disabled', 'false');
 fsButton.setAttribute('onclick', 'setFullscreen()');
 fsButton.innerHTML = '<span aria-hidden="true" class="vjs-icon-placeholder"></span><span class="vjs-control-text" aria-live="polite">Fullscreen</span>';
 
+var added = false;
 var checkExist = setInterval(function() {
-	if (document.querySelector('#divPlayer .vjs-control-bar') != null) {
-		document.body.appendChild(script);
-		document.querySelector('#divPlayer .vjs-control-bar').appendChild(fsButton);		
-		clearInterval(checkExist);
+	let playerEl = document.querySelector('#divPlayer');
+	
+	if (playerEl) {
+		let controlBarEl = playerEl.querySelector('.vjs-control-bar');
+		
+		if (controlBarEl) {
+			document.body.appendChild(playerScript);
+			controlBarEl.appendChild(fsButton);
+			clearInterval(checkExist);
+		}
 	}
 }, 100);
